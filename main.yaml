@@ -22,5 +22,10 @@
     firewalld:
       service: http
       permanent: yes
+      immediate: yes
       state: enabled
-
+  - name: reload-firewalld
+    systemd:
+      name: firewalld
+      state: reloaded
+    
