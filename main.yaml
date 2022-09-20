@@ -1,0 +1,26 @@
+---
+- name: Deploy Apache server
+  hosts: all
+  tasks:
+  - name: Install a list of packages with a list variable
+    ansible.builtin.yum:
+      name: "{{ packages }}"
+    vars:
+      packages:
+      - httpd
+      - httpd-tools
+  - name: Create Index.html file
+    copy:
+      dest: /var/www/html/index.html
+      content: "Welcome to Taashee Linux Services..!!"
+  - name: Start the service
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+  - name: permit traffic in default zone for https service
+    firewalld:
+      service: http
+      permanent: yes
+      state: enabled
+
